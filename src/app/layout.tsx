@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,6 +25,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const headersList = headers().then(headers =>{
+  //   console.log(headers);
+  //   return headers
+  // });
+
+
+  headers().then((headersList) => {
+    console.log(headersList);
+
+    // const token = headersList.get('cookie')?.includes('token');
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      redirect("/login");
+    }
+  });
+  // const token = headersList.get('cookie')?.includes('token');
+
+  // if (!token) {
+  //   redirect('/login');
+  // }
   return (
     <html lang="en">
       <body
